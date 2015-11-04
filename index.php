@@ -3,5 +3,5 @@
     <title>Gunter Hans Project</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1 style="color: red">Hello World!</h1>
 </body>
