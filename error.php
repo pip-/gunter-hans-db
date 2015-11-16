@@ -23,7 +23,7 @@ session_start();
 
     <link rel="stylesheet" href="style.css">
 
-    <title>Lab 8: Error</title>
+    <title>Error</title>
 </head>
 <body>
 <div class="container container-table">

@@ -38,7 +38,7 @@ function redirectErr()
 
     <link rel="stylesheet" href="style.css">
 
-    <title>Lab 8: Success!</title>
+    <title>LSuccess!</title>
 </head>
 <body>
 <div class="container container-table">
