@@ -31,7 +31,7 @@ CREATE TABLE customer //previously 'customer_type'
 
 CREATE TABLE employee
 (
-  employeeName VARCHAR PRIMARY KEY,
+  employeeName VARCHAR,
   employeeID INT PRIMARY KEY,
 ) engine=INNODB ;
 
