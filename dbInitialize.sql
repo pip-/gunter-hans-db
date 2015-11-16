@@ -1,7 +1,7 @@
-//creates tables
+--creates tables
 CREATE TABLE transaction
 (
-  //all transactions are sales, unless we need to implement transactins with suppliers
+  --all transactions are sales, unless we need to implement transactins with suppliers
   transactionID INT PRIMARY KEY,
   transactionTimestamp TIMESTAMP,
   subTotal FLOAT, //before discount, tax, gratuity
@@ -17,9 +17,9 @@ CREATE TABLE transaction
   totalDiscount FLOAT //sum of individual item discounts and special deals
 ) engine=INNODB ;
 
-CREATE TABLE customer //previously 'customer_type'
+CREATE TABLE customer --previously 'customer_type'
 (
-  //aggregate of payment_method, card_type, customer_type...et c
+  --aggregate of payment_method, card_type, customer_type...et c
   customerID INT PRIMARY KEY,
   paymentMethod VARCHAR(10) , //credit, debit, cash, check
   customerType VARCHAR(10), //walkin, takeout, drivethrough, delivery
@@ -54,8 +54,8 @@ CREATE TABLE menu_item
 
 CREATE TABLE menu_item_in_transaction
 (
-  //if cost needs to be taken into account, include transaction type : buyFromSupplier....
-  //many-to-many between menu_item and transaction tables
+  --if cost needs to be taken into account, include transaction type : buyFromSupplier....
+  --many-to-many between menu_item and transaction tables
   transactionID INT REFERENCES transaction(transactionID),
   menuItemID INT REFERENCES menu_item(menuItemID),
   PRIMARY KEY(transactionID, menuItemID),
