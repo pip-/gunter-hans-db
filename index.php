@@ -46,7 +46,7 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <title>Lab 8: Philip Gilbreth</title>
+    <title>Gunter Hans</title>
 </head>
 <body>
     <div class="container container-table">
