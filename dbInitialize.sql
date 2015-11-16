@@ -6,15 +6,15 @@ CREATE TABLE transaction
   transactionTimestamp TIMESTAMP,
   subTotal FLOAT, //before discount, tax, gratuity
   totalPrice FLOAT, //subtotal+tax+gratuity-discount
-  totalTax FLOAT,
+  totalTax FLOAT, //sum of all individual item taxes, if applicable, or entered by user
   gratuity FLOAT,
   receiptNumber VARCHAR(20),
   amountPaid FLOAT,
-  changeDue FLOAT,
+  changeDue FLOAT, //needed?
   registerNumber SMALLINT,
   cashier INT REFERENCES employee(employeeID),
   customer INT REFERENCES customer(customerID),
-  totalDiscount FLOAT
+  totalDiscount FLOAT //sum of individual item discounts and special deals
 ) engine=INNODB ;
 
 CREATE TABLE customer //previously 'customer_type'
@@ -40,7 +40,7 @@ CREATE TABLE menu_item
   menuItemID INT PRIMARY KEY,
   transactionID INT REFERENCES transaction(transactionID),
   consumerPrice FLOAT,
-  costToProduce FLOAT,
+  costToProduce FLOAT, 
   description VARCHAR(50),
   brand VARCHAR(20), //needed?
   supplier VARCHAR(20), //needed?
@@ -48,6 +48,7 @@ CREATE TABLE menu_item
   drinkSubtype VARCHAR(20), //alcohol-whiskey, nonalcohol-soda [alcohol/non]-[alsoholType/drinkType]
   itemTax FLOAT,
   discount FLOAT,
+  discountDescription VARCHAR(50),
   upcBarcode INT //needed? for cost analysis maaaybe
 ) engine=INNODB ;
 
