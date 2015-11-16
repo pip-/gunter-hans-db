@@ -14,7 +14,7 @@ CREATE TABLE transaction
   registerNumber SMALLINT,
   cashier INT REFERENCES employee(employeeID),
   customer INT REFERENCES customer(customerID),
-  totalDiscount FLOAT,
+  totalDiscount FLOAT
 ) engine=INNODB ;
 
 CREATE TABLE customer //previously 'customer_type'
@@ -32,7 +32,7 @@ CREATE TABLE customer //previously 'customer_type'
 CREATE TABLE employee
 (
   employeeName VARCHAR,
-  employeeID INT PRIMARY KEY,
+  employeeID INT PRIMARY KEY
 ) engine=INNODB ;
 
 /*CREATE TABLE payment_method
