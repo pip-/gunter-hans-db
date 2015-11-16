@@ -3,7 +3,7 @@ CREATE TABLE transaction
 (
   //all transactions are sales
   transactionID INT PRIMARY KEY,
-  timestamp TIMESTAMP,
+  transactionTimestamp TIMESTAMP,
   subTotal FLOAT, //before discount, tax, gratuity
   totalPrice FLOAT, //subtotal+tax+gratuity-discount
   totalTax FLOAT,
