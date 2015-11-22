@@ -20,7 +20,7 @@ if (isset($_SESSION['logged_in'])) {
 
 function redirectErr()
 {
-    header("Location: https://cs3380-pg3f4.cloudapp.net/lab8/error.php");
+    header("Location: https://cs3380-pg3f4.cloudapp.net/gunterhans/error.php");
     die();
 }
 

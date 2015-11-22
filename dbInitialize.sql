@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS menu_item;
 DROP TABLE IF EXISTS menu_item_in_transaction;
+DROP TABLE IF EXISTS user;
 
 -- creates tables
 CREATE TABLE transaction
@@ -57,6 +58,15 @@ CREATE TABLE menu_item
   discountDescription VARCHAR(50),
   upcBarcode INT -- needed? for cost analysis maaaybe
 ) engine=INNODB ;
+
+CREATE TABLE user
+(
+  username        VARCHAR(20) PRIMARY KEY,
+  salt            VARCHAR(20),
+  hashed_password VARCHAR(256),
+  user_type       ENUM('admin', 'reg')
+)
+  ENGINE = INNODB;
 
 CREATE TABLE menu_item_in_transaction
 (

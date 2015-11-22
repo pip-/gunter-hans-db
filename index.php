@@ -17,7 +17,7 @@
     //------------------------------------------------------
 
     function redirectSuc(){
-        header("Location: https://cs3380-pg3f4.cloudapp.net/lab8/success.php");
+        header("Location: https://cs3380-pg3f4.cloudapp.net/gunterhans/success.php");
         die();
     }
 
