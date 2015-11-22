@@ -63,8 +63,8 @@ CREATE TABLE user
 (
   username        VARCHAR(20) PRIMARY KEY,
   salt            VARCHAR(20),
-  hashed_password VARCHAR(256),
-  user_type       ENUM('admin', 'reg')
+  hashed_password VARCHAR(256)
+  -- user_type       ENUM('admin', 'reg')
 )
   ENGINE = INNODB;
 

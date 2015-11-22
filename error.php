@@ -9,7 +9,7 @@ session_start();
     //------------------------------------------------------
 
     function redirectSuc(){
-        header("Location: https://cs3380-pg3f4.cloudapp.net/gunterhans/success.php");
+        header("Location: https://gunterhans.cloudapp.net/success.php");
         die();
     }
 ?>
