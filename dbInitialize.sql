@@ -76,7 +76,7 @@ CREATE TABLE employee (
 
 CREATE TABLE transaction (
   transaction_id    CHAR(9),
-  time              DATETIME,
+  transactionDatetime DATETIME,
   employee_id       INT,
   -- customer_type_id INT,
   operation_type_id INT,
