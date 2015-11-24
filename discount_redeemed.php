@@ -11,7 +11,7 @@ if (!isset($_SESSION['username']) ||
 ?>
 <html>
 <head>
-    <title>SALES SEARCH</title>
+    <title>DISCOUNT REDEEMED</title>
     <!--  I USE BOOTSTRAP BECAUSE IT MAKES FORMATTING/LIFE EASIER -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Latest compiled and minified CSS -->
@@ -22,12 +22,12 @@ if (!isset($_SESSION['username']) ||
 </head>
 <body>
 <?php
-$isSaleSearch = 'active';
+$isDiscount = 'active';
 include('nav.php.inc');
 ?>
 <div class="container">
     <div class="page-header">
-        <h1>SALES SEARCH</h1>
+        <h1>DISCOUNT REDEEMED</h1>
     </div>
 
     <div class="row">
@@ -100,27 +100,6 @@ include('nav.php.inc');
         </form>
     </div>
     <?php
-    $table_template = '
-                	<table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th>Transaction ID</th>
-                                <th>Time</th>
-                                <th>Total Price</th>
-                                <th>Total Discount</th>
-                            </tr>
-                            %s
-                        </tbody>
-                   </table>';
-    $tr_template = '
-                	<tr>
-                        <td>%s</td>
-                        <td>%s</td>
-                        <td>%s</td>
-                        <td>%s</td>
-                    </tr>';
-    $trs = '';
-
     if (isset($_POST['submit'])) {
         $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT transaction_id, time FROM transaction WHERE DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))<=0 AND DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))>=0 AND TIMEDIFF(STR_TO_DATE(?, '%H:%i'), time(time))<=0 AND TIMEDIFF(STR_TO_DATE(?, '%H:%i'), time(time))>=0";
@@ -140,38 +119,29 @@ include('nav.php.inc');
                 mysqli_stmt_bind_param($stmt, "ssss", $datestart, $dateend, $timestart, $timeend) or die("bind param");
             }
 
-            echo '
-							<div>
-								<h3 class="text-center">Sales Report</h3>';
             if (mysqli_stmt_execute($stmt)) {
                 $result = mysqli_stmt_get_result($stmt);
-                $total_count = 0;
+                $discounts = 0;
 
                 while ($row = mysqli_fetch_row($result)) {
-                    $sql = "SELECT quantity, price, discount FROM transaction_detail NATURAL JOIN food WHERE transaction_id=?";
+                    $sql = "SELECT quantity, discount FROM transaction_detail NATURAL JOIN food WHERE transaction_id=?";
 
                     if ($stmt = mysqli_prepare($link, $sql)) {
                         mysqli_stmt_bind_param($stmt, "s", $row[0]) or die("bind param");
 
                         if (mysqli_stmt_execute($stmt)) {
                             $res = mysqli_stmt_get_result($stmt);
-                            $count = 0;
-                            $discounts = 0;
 
                             while ($r = mysqli_fetch_row($res)) {
-                                $count += ($r[1] - $r[2]) * $r[0];
-                                $discounts += $r[2] * $r[0];
+                                $discounts += $r[1] * $r[0];
                             }
-                            $total_count += $count;
-
-                            $trs .= sprintf($tr_template, $row[0], $row[1], $count, $discounts);
                         }
                     }
                 }
-                echo sprintf($table_template, $trs);
-
-                echo '<p>Total Transaction: ' . $result->num_rows . '</p>';
-                echo '<p>Average: $' . $total_count / $result->num_rows . '</p>';
+                echo '
+							<div>
+								<h3 class="text-center">Discount Redeemed Report</h3>';
+                echo '<h4 class="text-center">Discount Average: $' . $discounts / $result->num_rows . '</h4>';
                 echo '</div>';
             }
         }
