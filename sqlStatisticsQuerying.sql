@@ -11,25 +11,35 @@ Email daily report wants:
 Sales per employee: staff name, total sales $, tip $ and % received, discount # % given, more or less than employee evg, datetime
 Discount: Staff name, item, dept, category, % $ discount given, datetime*/
 
-SELECT returns,DATENAME(weekday,CONVERT(date,transactionDatetime)) AS dayofWeek FROM transaction WHERE trasactionDatetime BETWEEN ? AND ? ORDER BY dayofWeek ; --grabs total returns based on day of week and date/time...use php to etermiune avg $/hr
+SELECT returns,DATENAME(weekday,CONVERT(date,transactionDatetime)) AS dayofWeek FROM transaction WHERE trasactionDatetime BETWEEN ? AND ? ORDER BY dayofWeek ; --grabs total returns based on day of week and date/time...use php to determine avg $/hr
 
 SELECT returns,DATENAME(weekday,CONVERT(date,transactionDatetime)) AS dayofWeek FROM transaction WHERE dayofWeek = ? AND trasactionDatetime BETWEEN ? AND ? ; --utility version of the previous statement to grab records by day
 
+
 SELECT employee_id,discount FROM
-	(
-		(
-			food AS f JOIN transaction_detail AS td ON f.food_id=td.food_id
-		) AS f_td
-		JOIN
-		(
-			transaction_detail AS td JOIN transaction AS t ON t.transaction_id=td.transaction_id
-		) AS td_t
-	) AS f_td-td_t ON f_td.transaction_id=td_t.transaction_id
-	WHERE transactionDatetime BETWEEN ? AND ? 
-	ORDER BY employee_id ; --connects food.discount and transaction.employee_id; lists all discounts for each employee for certain timeframe
+			(
+				(
+					food AS f JOIN transaction_detail AS td ON f.food_id=td.food_id
+				) AS f_td
+				JOIN
+				(
+					transaction_detail AS td JOIN transaction AS t ON t.transaction_id=td.transaction_id
+				) AS td_t
+			) AS f_td-td_t ON f_td.transaction_id=td_t.transaction_id
+			WHERE transactionDatetime BETWEEN ? AND ? 
+			ORDER BY employee_id ; --connects food.discount and transaction.employee_id; lists all discounts for each employee for certain timeframe
+
+SELECT employee_id,tips FROM transaction WHERE transactionDatetime BETWEEN ? AND ? ORDER BY employee_id ; --grabs tips each employee makes over certain time period
+			
+--TODO avg discount for each menu item
+--unsupported with current dbInitialize structure
 
 --TODO track discounts as % of sales for certain day
---TODO avg discount for each menu item
---TODO track who gives which discount
+--unsupported with current dbInitialize structure
+
 --TODO tips per employee as % of total tips
+
+
 --TODO sales # and $ per employee
+
+
