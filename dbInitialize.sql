@@ -77,7 +77,6 @@ CREATE TABLE employee (
 CREATE TABLE transaction (
   transaction_id    CHAR(9),
   time              DATETIME,
-  dayofWeek         VARCHAR(8),
   employee_id       INT,
   -- customer_type_id INT,
   operation_type_id INT,
