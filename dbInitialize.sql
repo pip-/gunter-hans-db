@@ -71,22 +71,24 @@ CREATE TABLE employee (
   employee_id   INT,
   employee_name VARCHAR(255),
 
-  PRIMARY KEY (employee_id)
+  PRIMARY KEY (employee_name)
 );
 
 CREATE TABLE transaction (
   transaction_id    CHAR(9),
   transactionDatetime DATETIME,
-  employee_id       INT,
+  employee_name VARCHAR(255),
   -- customer_type_id INT,
   operation_type_id INT,
   payment_id        INT,
+  subtotal      DECIMAL(10, 2),
   tips              DECIMAL(10, 2),
+  tax           DECIMAL(10, 2),
   tendered_amount   DECIMAL(10, 2),
   returns           DECIMAL(10, 2),
 
   PRIMARY KEY (transaction_id),
-  FOREIGN KEY (employee_id) REFERENCES employee (employee_id),
+  FOREIGN KEY (employee_name) REFERENCES employee (employee_name),
   -- FOREIGN KEY (customer_type_id) REFERENCES customer_type(customer_type_id),
   FOREIGN KEY (operation_type_id) REFERENCES operation_type (operation_type_id),
   FOREIGN KEY (payment_id) REFERENCES payment_method (payment_id)
@@ -135,17 +137,5 @@ INSERT INTO food VALUES (5, 3, 2, 'Balvenie 14- Single (2oz)', 14, 7);
 
 INSERT INTO employee VALUES (1, 'Rachel Dicke');
 INSERT INTO employee VALUES (2, 'Kim Burton');
-
-INSERT INTO transaction VALUES ('428594725', '2015-08-11 0:17:0', 1, 1, 1, 4.4, 28.26, 0);
-INSERT INTO transaction VALUES ('428596273', '2015-08-11 0:27:0', 1, 1, 1, 1.26, 8.85, 0);
-INSERT INTO transaction VALUES ('428596799', '2015-08-11 0:31:0', 1, 1, 3, 0, 8, 2.58);
-INSERT INTO transaction VALUES ('428600199', '2015-08-11 0:54:0', 2, 1, 1, 1.17, 8.22, 0);
-INSERT INTO transaction VALUES ('428604686', '2015-08-11 1:31:0', 2, 1, 2, 0, 7.59, 0);
-
-INSERT INTO transaction_detail VALUES ('428594725', 1, 4);
-INSERT INTO transaction_detail VALUES ('428596273', 2, 2);
-INSERT INTO transaction_detail VALUES ('428596799', 3, 1);
-INSERT INTO transaction_detail VALUES ('428600199', 4, 1);
-INSERT INTO transaction_detail VALUES ('428604686', 5, 1);
 
 INSERT INTO user VALUES ('admin', 0, '1400851839', '$2y$10$T4UNJEblHNI/r5kO7VEbUOX0.GENdlbXJxuGczj0853yCd7LUHqyK');
