@@ -29,17 +29,12 @@ SELECT employee_id,discount FROM
 			WHERE transactionDatetime BETWEEN ? AND ? 
 			ORDER BY employee_id ; --connects food.discount and transaction.employee_id; lists all discounts for each employee for certain timeframe
 
-SELECT employee_id,tips FROM transaction WHERE transactionDatetime BETWEEN ? AND ? ORDER BY employee_id ; --grabs tips each employee makes over certain time period
+SELECT employee_name,tips FROM transaction WHERE transactionDatetime BETWEEN ? AND ? ORDER BY employee_name ; --grabs tips each employee makes over certain time period
+
+SELECT employee_name,returns,COUNT(*) FROM ( employee AS e JOIN transaction AS t ON e.employee_id=t.employee_id) WHERE tranactionDatetime BETWEEN ? AND ? ORDER BY employee_name ; --grabs meployee name and each sale $ and # sales
 			
 --TODO avg discount for each menu item
---unsupported with current dbInitialize structure
+--unsupported with current db structure
 
 --TODO track discounts as % of sales for certain day
---unsupported with current dbInitialize structure
-
---TODO tips per employee as % of total tips
-
-
---TODO sales # and $ per employee
-
-
+--unsupported with current db structure
