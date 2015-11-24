@@ -45,6 +45,12 @@ function redirectErr()
     <div class="row vertical-center-row">
         <div class="col-md-4 col-md-offset-4 text-center">
             <h1>Success!</h1>
+
+            <form action="parse_transaction.php" method="post" enctype="multipart/form-data">
+                Select image to upload:
+                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="submit" value="Upload Image" name="submit">
+            </form>
             <?php
                 if(isset($_SESSION['username'])){
                     echo "<p>Hello <em>". $_SESSION['username']. "</em>! You are logged in.</p>";

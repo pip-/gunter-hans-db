@@ -8,19 +8,18 @@ DROP TABLE IF EXISTS user;
 -- creates tables
 CREATE TABLE transaction
 (
-  -- all transactions are sales, unless we need to implement transactins with suppliers
+  -- all transactions are sales, unless we need to implement transactions with suppliers
   transactionID INT PRIMARY KEY,
   transactionTimestamp TIMESTAMP,
   subTotal FLOAT, -- before discount, tax, gratuity
   totalPrice FLOAT, -- subtotal+tax+gratuity-discount
-  totalTax FLOAT, -- sum of all individual item taxes, if applicable, or entered by user
+  totalTax FLOAT, -- sum of all individual item taxes, if applicable (not sure is applicable -Philip), or entered by user
   gratuity FLOAT,
   receiptNumber VARCHAR(20),
   amountPaid FLOAT,
-  changeDue FLOAT, -- needed?
   registerNumber SMALLINT,
-  cashier INT REFERENCES employee(employeeID),
-  customer INT REFERENCES customer(customerID),
+  cashier  VARCHAR(25) REFERENCES employee (employeeName),
+  customer VARCHAR(25) REFERENCES customer (cardName),
   totalDiscount FLOAT -- sum of individual item discounts and special deals
 ) engine=INNODB ;
 
