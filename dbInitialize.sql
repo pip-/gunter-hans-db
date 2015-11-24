@@ -41,37 +41,38 @@ CREATE TABLE operation_type (
 );
 
 CREATE TABLE department (
-  department_id   INT,
-  department_name VARCHAR(255),
+  department_id   INT AUTO_INCREMENT,
+  department_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (department_id)
 );
 
 CREATE TABLE category (
-  category_id   INT,
-  category_name VARCHAR(255),
+  category_id   INT AUTO_INCREMENT,
+  category_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (category_id)
 );
 
 CREATE TABLE food (
-  food_id       INT,
-  category_id   INT,
-  department_id INT,
-  food_name     VARCHAR(255),
+  food_id         INT AUTO_INCREMENT,
+  category_name   VARCHAR(255),
+  department_name VARCHAR(255),
+  food_name       VARCHAR(255) UNIQUE,
+  supplier        VARCHAR(20),
   price         DECIMAL(10, 2),
   discount      DECIMAL(10, 2),
 
-  PRIMARY KEY (food_id),
-  FOREIGN KEY (department_id) REFERENCES department (department_id),
-  FOREIGN KEY (category_id) REFERENCES category (category_id)
+  PRIMARY KEY (food_ID),
+  FOREIGN KEY (department_name) REFERENCES department (department_name),
+  FOREIGN KEY (category_name) REFERENCES category (category_name)
 );
 
 CREATE TABLE employee (
-  employee_id   INT,
-  employee_name VARCHAR(255),
+  employee_id   INT AUTO_INCREMENT,
+  employee_name VARCHAR(255) UNIQUE,
 
-  PRIMARY KEY (employee_name)
+  PRIMARY KEY (employee_id)
 );
 
 CREATE TABLE transaction (
@@ -96,12 +97,12 @@ CREATE TABLE transaction (
 
 CREATE TABLE transaction_detail (
   transaction_id CHAR(9),
-  food_id        INT,
+  food_name VARCHAR(255),
   quantity       INT,
 
-  PRIMARY KEY (transaction_id, food_id),
+  PRIMARY KEY (transaction_id, food_name),
   FOREIGN KEY (transaction_id) REFERENCES transaction (transaction_id),
-  FOREIGN KEY (food_id) REFERENCES food (food_id)
+  FOREIGN KEY (food_name) REFERENCES food (food_name)
 );
 
 CREATE TABLE user (
@@ -129,11 +130,6 @@ INSERT INTO category VALUES (1, 'Pint');
 INSERT INTO category VALUES (2, 'Whiskey');
 INSERT INTO category VALUES (3, 'Scotch');
 
-INSERT INTO food VALUES (1, 1, 1, 'Hirter Morchl- pint', 5.5, 0);
-INSERT INTO food VALUES (2, 2, 2, 'Jim Bean- Single (1.5 oz)', 3.5, 0);
-INSERT INTO food VALUES (3, 1, 1, 'Shiphead-Pint', 5, 0);
-INSERT INTO food VALUES (4, 1, 1, 'Schnicklefritz- pint', 6.5, 0);
-INSERT INTO food VALUES (5, 3, 2, 'Balvenie 14- Single (2oz)', 14, 7);
 
 INSERT INTO employee VALUES (1, 'Rachel Dicke');
 INSERT INTO employee VALUES (2, 'Kim Burton');

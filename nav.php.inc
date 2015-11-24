@@ -30,14 +30,15 @@ include("../secure/db.php");
                         <li><a href="tips_average.php">Average Tips</a></li>
                     </ul>
                 </li>
+                <li class="dropdown <?php echo $isAdvanced ?>"><a href="advanced.php">Advanced Report</a></li>
                 <li class="dropdown <?php echo $isUpload ?>">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Upload<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="parse_transaction.php">Basic Transaction</a></li>
+                        <li><a href="parse_detailed_transaction.php">Detailed Transaction</a></li>
                     </ul>
                 </li>
-                <li class="dropdown <?php echo $isAdvanced ?>"><a href="advanced.php">Advanced Report</a></li>
             </ul>
             <?php
             if (isset($_SESSION['username'])) {
