@@ -15,6 +15,19 @@ SELECT returns,DATENAME(weekday,CONVERT(date,transactionDatetime)) AS dayofWeek 
 
 SELECT returns,DATENAME(weekday,CONVERT(date,transactionDatetime)) AS dayofWeek FROM transaction WHERE dayofWeek = ? AND trasactionDatetime BETWEEN ? AND ? ; --utility version of the previous statement to grab records by day
 
+SELECT employee_id,discount FROM
+	(
+		(
+			food AS f JOIN transaction_detail AS td ON f.food_id=td.food_id
+		) AS f_td
+		JOIN
+		(
+			transaction_detail AS td JOIN transaction AS t ON t.transaction_id=td.transaction_id
+		) AS td_t
+	) AS f_td-td_t ON f_td.transaction_id=td_t.transaction_id
+	WHERE transactionDatetime BETWEEN ? AND ? 
+	ORDER BY employee_id ; --connects food.discount and transaction.employee_id; lists all discounts for each employee for certain timeframe
+
 --TODO track discounts as % of sales for certain day
 --TODO avg discount for each menu item
 --TODO track who gives which discount
