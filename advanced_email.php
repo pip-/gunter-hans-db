@@ -65,7 +65,7 @@ $db = 'cs3380-yxdh8';
         $weekshow = array("Sun.", "Mon.", "Tue.", "Wed.", "Thurs.", "Fri.", "Sat.");
         echo '<div>';
 
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT discount FROM transaction NATURAL JOIN transaction_detail NATURAL JOIN food";
         $total_discounts = 0;
         if ($stmt = mysqli_prepare($link, $sql)) {

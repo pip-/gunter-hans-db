@@ -47,7 +47,7 @@ include('nav.php.inc');
 						</div>
 						<div class="row form-group">
 								<input class=" btn btn-info" type="submit" name="login" value="Login"/>
-								<input class=" btn btn-warning" type="button" value="Register" onclick="window.location.href=\'register.php\'" />
+								<input class=" btn btn-warning pull-right" type="button" value="Register" onclick="window.location.href=\'register.php\'" />
 						</div>';
 				}
 				?>
@@ -62,7 +62,7 @@ include('nav.php.inc');
 
 	if (isset($_POST['login'])) {
 
-		$link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+		$link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
 		$sql = "SELECT salt, hashed_password, type FROM user WHERE username=?";
 		if ($stmt = mysqli_prepare($link, $sql)) {
 			$user = $_POST['username'];

@@ -120,7 +120,7 @@ include('nav.php.inc');
     $trs = '';
 
     if (isset($_POST['submit'])) {
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT employee_name, sum(tips), employee_id FROM transaction NATURAL JOIN employee WHERE DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))<=0 AND DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))>=0 AND TIMEDIFF(STR_TO_DATE(?, '%H:%i'), time(time))<=0 AND TIMEDIFF(STR_TO_DATE(?, '%H:%i'), time(time))>=0";
         if ($_POST['days'] != 0) {
             $sql .= ' AND DAYOFWEEK(time)=?';

@@ -85,7 +85,7 @@ include('nav.php.inc');
 
     $weekshow = array("All", "Sun.", "Mon.", "Tue.", "Wed.", "Thurs.", "Fri.", "Sat.");
     if (isset($_POST['submit'])) {
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         if ($_POST['days'] != 0 && $_POST['datestartinput'] !== '') {
             $sql = "SELECT transaction_id, time FROM transaction WHERE DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))=0 AND DAYOFWEEK(time)=?";
         } else if ($_POST['days'] != 0) {

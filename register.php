@@ -42,7 +42,7 @@ include('nav.php.inc');
     <?php
     if (isset($_POST['submit'])) {
 
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "INSERT INTO user(username,salt,hashed_password,type) VALUES (?,?,?,?)";
         if ($stmt = mysqli_prepare($link, $sql)) {
             $user = $_POST['username'];

@@ -1,8 +1,5 @@
 <?php
-$host = 'us-cdbr-azure-central-a.cloudapp.net';
-$user = 'bde136b978606c';
-$password = '7a298415';
-$db = 'cs3380-yxdh8';
+include("../secure/db.php");
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -31,6 +28,13 @@ $db = 'cs3380-yxdh8';
                         <li><a href="tips_search.php">Tips Search</a></li>
                         <li><a href="tips_employee.php">Tips per Employee</a></li>
                         <li><a href="tips_average.php">Average Tips</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown <?php echo $isUpload ?>">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Upload<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="parse_transaction.php">Basic Transaction</a></li>
                     </ul>
                 </li>
                 <li class="dropdown <?php echo $isAdvanced ?>"><a href="advanced.php">Advanced Report</a></li>

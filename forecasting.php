@@ -42,7 +42,7 @@ include('nav.php.inc');
 				</div>';
             $daily_forecasting = '';
 
-            $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+            $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
             $sql = "SELECT tendered_amount, returns FROM transaction WHERE DATEDIFF(STR_TO_DATE(?, '%d/%m/%Y'), date(time))=0";
 
             $week = array(date('Y-m-d', strtotime('-1 week')), date('Y-m-d', strtotime('-2 week')), date('Y-m-d', strtotime('-3 week')));

@@ -55,7 +55,7 @@ include('nav.php.inc');
         echo '<div>
 						<h3 class="text-center">Department Discount</h3>';
 
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT department_id, department_name FROM department";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
@@ -113,7 +113,7 @@ include('nav.php.inc');
         echo '<div>
 						<h3 class="text-center">Category Discount</h3>';
 
-        $link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+        $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT category_id, category_name FROM category";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
