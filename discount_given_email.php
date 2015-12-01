@@ -7,6 +7,7 @@ if (!isset($_SESSION['username']) ||
             url="index.php";
             window.location.href=url;
             </script>';
+    $isDiscount = 'active';
 }
 ?>
 <html>
@@ -61,6 +62,7 @@ if (!isset($_SESSION['username']) ||
         $weekshow = array("Sun.", "Mon.", "Tue.", "Wed.", "Thurs.", "Fri.", "Sat.");
         echo '<div>';
 
+        include("../secure/db.php");
         $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT * FROM employee";
 

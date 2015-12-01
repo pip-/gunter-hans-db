@@ -47,12 +47,10 @@ include('nav.php.inc');
                             if ($num == 14) {
                                 include("../secure/db.php");
                                 $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME);
-                                $sql = "INSERT INTO transaction(transaction_id,transactionDatetime,employee_name,operation_type_id,subtotal,tips,tax,tendered_amount) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE transaction_id = ?";
+                                $sql = "INSERT INTO employee(employee_name) VALUES(?)";
                                 if ($stmt = mysqli_prepare($link, $sql)) {
                                     $tid = $data[0];
                                     $time = $data[1];
-                                    $newTime = "2015/" . str_replace("/2015", "", $time);
-                                    //echo "THE NEWTIME IS " . $newTime;
                                     $cashier = $data[3];
                                     $customerName = $data[5];
                                     $subtotal = $data[7];
@@ -62,19 +60,38 @@ include('nav.php.inc');
                                     $gratuity = $data[12];
                                     $rNum = $data[13];
                                     $operation_type_id = 1;
+                                    $newTime = "2015/" . str_replace("/2015", "", $time);
+                                    mysqli_stmt_bind_param($stmt, "s", $cashier) or die ("Can't bind param employee on row " . $row . "\n");
+                                    mysqli_stmt_execute($stmt);
+                                    $sql = "INSERT INTO transaction(transaction_id,time,employee_id,operation_type_id,tips,tendered_amount) VALUES(?,?,?,?,?,?) ON DUPLICATE KEY UPDATE transaction_id = ?";
+                                    if ($stmt = mysqli_prepare($link, $sql)) {
+                                        $sql2 = "SELECT employee_id FROM employee WHERE employee_name = ?";
+                                        if ($stmt2 = mysqli_prepare($link, $sql2)) {
+                                            mysqli_stmt_bind_param($stmt2, "s", $cashier) or die ("Can't bind employee search on row " . $row . "\n");
+                                            mysqli_stmt_execute($stmt2);
+                                            if ($res = $stmt2->get_result()) {
+                                                if ($res->num_rows == 1) {
+                                                    $arr = $res->fetch_assoc();
+                                                    $cashier_id = $arr[employee_id];
 
-                                    mysqli_stmt_bind_param($stmt, "issiddddi", $tid, $newTime, $cashier, $operation_type_id, $subtotal, $gratuity, $tax, $total, $tid) or die("Bind param");
-                                    if (mysqli_stmt_execute($stmt)) {
-                                        echo "Transaction " . $tid . " added successfully! <br/>";
+                                                    mysqli_stmt_bind_param($stmt, "isiiddi", $tid, $newTime, $cashier_id, $operation_type_id, $gratuity, $total, $tid) or die("Bind param");
+                                                    if (mysqli_stmt_execute($stmt)) {
+                                                        echo "Transaction " . $tid . " added successfully! <br/>";
+                                                    } else {
+                                                        echo "Transaction " . $tid . ": could not be added! (Transaction # already exists) OR ERROR: " . $stmt->error . " <br/>";
+                                                    }
+                                                } else {
+                                                    die("Could not prepare statement!");
+                                                }
+                                            } else {
+                                                echo "Wrong file uploaded/Data not formatted correctly";
+                                            }
+                                        }
                                     } else {
-                                        echo "Transaction " . $tid . ": could not be added! (Transaction # already exists) <br/>";
+                                        echo "could not prepare statement INSERT INTO...Error: " . $stmt->error . "...";
                                     }
-                                } else {
-                                    die("Could not prepare statement!");
                                 }
-                            } else {
-                                echo "Wrong file uploaded/Data not formatted correctly";
-                                }
+                            }
                         }
                 }
             }

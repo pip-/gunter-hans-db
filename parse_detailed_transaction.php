@@ -79,36 +79,80 @@ include('nav.php.inc');
                                                 if ($stmt = mysqli_prepare($link, $sql)) {
                                                     mysqli_stmt_bind_param($stmt, "ss", $cashier, $cashier) or die("Bind param for employee on row: " . $row);
                                                     if (mysqli_stmt_execute($stmt)) {
-                                                        $sql = "INSERT INTO food(category_name,department_name,food_name,supplier,price) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE food_name = ?";
-                                                        if ($stmt = mysqli_prepare($link, $sql)) {
-                                                            mysqli_stmt_bind_param($stmt, "sssdds", $category, $department, $itemDescription, $supplier, $price, $itemDescription) or die("Bind param for food on row: " . $row);
-                                                            if (mysqli_stmt_execute($stmt)) {
-                                                                $sql = "INSERT INTO transaction(transaction_id,transactionDatetime,employee_name,operation_type_id,subtotal,tax,tendered_amount) VALUES(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE transaction_id = ?";
-                                                                if ($stmt = mysqli_prepare($link, $sql)) {
-                                                                    mysqli_stmt_bind_param($stmt, "issidddi", $tid, $newTime, $cashier, $operation_type, $subtotal, $tax, $total, $tid) or die("Bind param for transaction on row: " . $row);
-                                                                    if (mysqli_stmt_execute($stmt)) {
-                                                                        $sql = "INSERT INTO transaction_detail(transaction_id,food_name,quantity) VALUES(?,?,?)";
-                                                                        if ($stmt = mysqli_prepare($link, $sql)) {
-                                                                            mysqli_stmt_bind_param($stmt, "isi", $tid, $itemDescription, $quantity) or die("Bind param for transaction_detail on row: " . $row);
-                                                                            if (mysqli_stmt_execute($stmt)) {
-                                                                                echo "Transaction: " . $tid . " added successfully!<br/>";
-                                                                            } else {
-                                                                                echo("Unable to add transaction detail on row: " . $row . " (Maybe already exists?)<br/>");
+                                                        $sql2 = "SELECT category_id FROM category WHERE category_name = ?";
+                                                        if ($stmt2 = mysqli_prepare($link, $sql2)) {
+                                                            mysqli_stmt_bind_param($stmt2, "s", $category) or die ("Can't bind category search on row " . $row . "\n");
+                                                            mysqli_stmt_execute($stmt2);
+                                                            if ($res = $stmt2->get_result()) {
+                                                                if ($res->num_rows == 1) {
+                                                                    $arr = $res->fetch_assoc();
+                                                                    $category_id = $arr[category_id];
+                                                                    $sql2 = "SELECT department_id FROM department WHERE department_name = ?";
+                                                                    if ($stmt2 = mysqli_prepare($link, $sql2)) {
+                                                                        mysqli_stmt_bind_param($stmt2, "s", $department) or die ("Can't bind department search on row " . $row . "\n");
+                                                                        mysqli_stmt_execute($stmt2);
+                                                                        if ($res = $stmt2->get_result()) {
+                                                                            if ($res->num_rows == 1) {
+                                                                                $arr = $res->fetch_assoc();
+                                                                                $department_id = $arr[department_id];
+                                                                                $sql = "INSERT INTO food(category_id,department_id,food_name,price) VALUES(?,?,?,?)";
+                                                                                if ($stmt = mysqli_prepare($link, $sql)) {
+                                                                                    mysqli_stmt_bind_param($stmt, "iisd", $category_id, $department_id, $itemDescription, $price) or die("Bind param for food on row: " . $row);
+                                                                                    if (mysqli_stmt_execute($stmt)) {
+                                                                                        $sql2 = "SELECT employee_id FROM employee WHERE employee_name = ?";
+                                                                                        if ($stmt2 = mysqli_prepare($link, $sql2)) {
+                                                                                            mysqli_stmt_bind_param($stmt2, "s", $cashier) or die ("Can't bind employee search on row " . $row . "\n");
+                                                                                            mysqli_stmt_execute($stmt2);
+                                                                                            if ($res = $stmt2->get_result()) {
+                                                                                                if ($res->num_rows == 1) {
+                                                                                                    $arr = $res->fetch_assoc();
+                                                                                                    $cashier_id = $arr[employee_id];
+                                                                                                    $sql = "INSERT INTO transaction(transaction_id,time,employee_id,operation_type_id,tendered_amount) VALUES(?,?,?,?,?)";
+                                                                                                    if ($stmt = mysqli_prepare($link, $sql)) {
+                                                                                                        mysqli_stmt_bind_param($stmt, "isiid", $tid, $newTime, $cashier_id, $operation_type, $total) or die("Bind param for transaction on row: " . $row);
+                                                                                                        if (mysqli_stmt_execute($stmt)) {
+                                                                                                            $sql2 = "SELECT food_id FROM food WHERE food_name = ?";
+                                                                                                            if ($stmt2 = mysqli_prepare($link, $sql2)) {
+                                                                                                                mysqli_stmt_bind_param($stmt2, "s", $itemDescription) or die ("Can't bind food search on row " . $row . "\n");
+                                                                                                                mysqli_stmt_execute($stmt2);
+                                                                                                                if ($res = $stmt2->get_result()) {
+                                                                                                                    if ($res->num_rows == 1) {
+                                                                                                                        $arr = $res->fetch_assoc();
+                                                                                                                        $food_id = $arr[food_id];
+                                                                                                                        $sql = "INSERT INTO transaction_detail(transaction_id,food_id,quantity) VALUES(?,?,?)";
+                                                                                                                        if ($stmt = mysqli_prepare($link, $sql)) {
+                                                                                                                            mysqli_stmt_bind_param($stmt, "iii", $tid, $food_id, $quantity) or die("Bind param for transaction_detail on row: " . $row);
+                                                                                                                            if (mysqli_stmt_execute($stmt)) {
+                                                                                                                                echo "Transaction: " . $tid . " added successfully!<br/>";
+                                                                                                                            } else {
+                                                                                                                                echo("Unable to add transaction detail on row: " . $row . " (Maybe already exists?)<br/>");
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            die("Unable to prepare transaction detail on row: " . $row);
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            die("Unable to add transaction on row: " . $row);
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        die("Could not prepare transaction statement on row: " . $row);
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        die("Could not add food on row: " . $row);
+                                                                                    }
+                                                                                } else {
+                                                                                    die("Could not prepare food statement on row: " . $row);
+                                                                                }
                                                                             }
-                                                                        } else {
-                                                                            die("Unable to prepare transaction detail on row: " . $row);
                                                                         }
-                                                                    } else {
-                                                                        die("Unable to add transaction on row: " . $row);
                                                                     }
-                                                                } else {
-                                                                    die("Could not prepare transaction statement on row: " . $row);
                                                                 }
-                                                            } else {
-                                                                die("Could not add food on row: " . $row);
                                                             }
-                                                        } else {
-                                                            die("Could not prepare food statement on row: " . $row);
                                                         }
                                                     } else {
                                                         die("Could not add employee on row: " . $row);

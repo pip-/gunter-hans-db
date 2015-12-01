@@ -11,16 +11,16 @@ DROP TABLE IF EXISTS user;
 
 
 CREATE TABLE card_type (
-  type_id   INT,
-  type_name VARCHAR(255),
+  type_id   INT AUTO_INCREMENT,
+  type_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (type_id)
 );
 
 CREATE TABLE payment_method (
-  payment_id   INT,
+  payment_id   INT AUTO_INCREMENT,
   type_id      INT,
-  payment_name VARCHAR(255),
+  payment_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (payment_id),
   FOREIGN KEY (type_id) REFERENCES card_type (type_id)
@@ -34,14 +34,14 @@ CREATE TABLE payment_method (
 -- );
 
 CREATE TABLE operation_type (
-  operation_type_id   INT,
-  operation_type_name VARCHAR(255),
+  operation_type_id   INT AUTO_INCREMENT,
+  operation_type_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (operation_type_id)
 );
 
 CREATE TABLE department (
-  department_id   INT AUTO_INCREMENT,
+  department_id INT AUTO_INCREMENT,
   department_name VARCHAR(255) UNIQUE,
 
   PRIMARY KEY (department_id)
@@ -49,47 +49,44 @@ CREATE TABLE department (
 
 CREATE TABLE category (
   category_id   INT AUTO_INCREMENT,
-  category_name VARCHAR(255) UNIQUE,
+  category_name VARCHAR(255),
 
   PRIMARY KEY (category_id)
 );
 
 CREATE TABLE food (
-  food_id         INT AUTO_INCREMENT,
-  category_name   VARCHAR(255),
-  department_name VARCHAR(255),
-  food_name       VARCHAR(255) UNIQUE,
-  supplier        VARCHAR(20),
+  food_id       INT AUTO_INCREMENT,
+  category_id   INT,
+  department_id INT,
+  food_name     VARCHAR(255) UNIQUE,
   price         DECIMAL(10, 2),
   discount      DECIMAL(10, 2),
 
-  PRIMARY KEY (food_ID),
-  FOREIGN KEY (department_name) REFERENCES department (department_name),
-  FOREIGN KEY (category_name) REFERENCES category (category_name)
+  PRIMARY KEY (food_id),
+  FOREIGN KEY (department_id) REFERENCES department (department_id),
+  FOREIGN KEY (category_id) REFERENCES category (category_id)
 );
 
 CREATE TABLE employee (
   employee_id   INT AUTO_INCREMENT,
-  employee_name VARCHAR(255) UNIQUE,
+  employee_name VARCHAR(255) NOT NULL UNIQUE,
 
   PRIMARY KEY (employee_id)
 );
 
 CREATE TABLE transaction (
-  transaction_id    CHAR(9),
-  transactionDatetime DATETIME,
-  employee_name VARCHAR(255),
+  transaction_id  CHAR(9),
+  time            DATETIME,
+  employee_id     INT,
   -- customer_type_id INT,
   operation_type_id INT,
-  payment_id        INT,
-  subtotal      DECIMAL(10, 2),
-  tips              DECIMAL(10, 2),
-  tax           DECIMAL(10, 2),
-  tendered_amount   DECIMAL(10, 2),
-  returns           DECIMAL(10, 2),
+  payment_id      INT,
+  tips            DECIMAL(10, 2),
+  tendered_amount DECIMAL(10, 2),
+  returns         DECIMAL(10, 2),
 
   PRIMARY KEY (transaction_id),
-  FOREIGN KEY (employee_name) REFERENCES employee (employee_name),
+  FOREIGN KEY (employee_id) REFERENCES employee (employee_id),
   -- FOREIGN KEY (customer_type_id) REFERENCES customer_type(customer_type_id),
   FOREIGN KEY (operation_type_id) REFERENCES operation_type (operation_type_id),
   FOREIGN KEY (payment_id) REFERENCES payment_method (payment_id)
@@ -97,41 +94,21 @@ CREATE TABLE transaction (
 
 CREATE TABLE transaction_detail (
   transaction_id CHAR(9),
-  food_name VARCHAR(255),
-  quantity       INT,
+  food_id  INT,
+  quantity INT,
 
-  PRIMARY KEY (transaction_id, food_name),
+  PRIMARY KEY (transaction_id, food_id),
   FOREIGN KEY (transaction_id) REFERENCES transaction (transaction_id),
-  FOREIGN KEY (food_name) REFERENCES food (food_name)
+  FOREIGN KEY (food_id) REFERENCES food (food_id)
 );
 
 CREATE TABLE user (
-  username        VARCHAR(20),
-  type            INT,
-  salt            VARCHAR(20),
+  username VARCHAR(20),
+  type     INT,
+  salt     VARCHAR(20),
   hashed_password VARCHAR(256),
 
   PRIMARY KEY (username)
 );
 
-INSERT INTO card_type VALUES (1, 'VISA');
-INSERT INTO card_type VALUES (2, 'MASTERCARD');
-
-INSERT INTO payment_method VALUES (1, 1, 'credit');
-INSERT INTO payment_method VALUES (2, 2, 'credit');
-INSERT INTO payment_method VALUES (3, NULL, 'cash');
-
-INSERT INTO operation_type VALUES (1, 'sale');
-
-INSERT INTO department VALUES (1, 'Beer');
-INSERT INTO department VALUES (2, 'Liquor');
-
-INSERT INTO category VALUES (1, 'Pint');
-INSERT INTO category VALUES (2, 'Whiskey');
-INSERT INTO category VALUES (3, 'Scotch');
-
-
-INSERT INTO employee VALUES (1, 'Rachel Dicke');
-INSERT INTO employee VALUES (2, 'Kim Burton');
-
-INSERT INTO user VALUES ('admin', 0, '1400851839', '$2y$10$T4UNJEblHNI/r5kO7VEbUOX0.GENdlbXJxuGczj0853yCd7LUHqyK');
+INSERT INTO operation_type VALUES (1, "sale");

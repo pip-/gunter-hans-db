@@ -21,12 +21,6 @@ if (!isset($_SESSION['username']) ||
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 </head>
 <body>
-<?php
-$host = 'us-cdbr-azure-central-a.cloudapp.net';
-$user = 'bde136b978606c';
-$password = '7a298415';
-$db = 'cs3380-yxdh8';
-?>
 <div class="container">
     <div class="page-header">
         <h1>ADVANCED REPORT EMAIL</h1>
@@ -65,6 +59,7 @@ $db = 'cs3380-yxdh8';
         $weekshow = array("Sun.", "Mon.", "Tue.", "Wed.", "Thurs.", "Fri.", "Sat.");
         echo '<div>';
 
+        include("../secure/db.php");
         $link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
         $sql = "SELECT discount FROM transaction NATURAL JOIN transaction_detail NATURAL JOIN food";
         $total_discounts = 0;
