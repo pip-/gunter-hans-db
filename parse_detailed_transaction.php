@@ -95,9 +95,9 @@ include('nav.php.inc');
                                                                             if ($res->num_rows == 1) {
                                                                                 $arr = $res->fetch_assoc();
                                                                                 $department_id = $arr[department_id];
-                                                                                $sql = "INSERT INTO food(category_id,department_id,food_name,price) VALUES(?,?,?,?)";
+                                                                                $sql = "INSERT INTO food(category_id,department_id,food_name,price,discount) VALUES(?,?,?,?,?)";
                                                                                 if ($stmt = mysqli_prepare($link, $sql)) {
-                                                                                    mysqli_stmt_bind_param($stmt, "iisd", $category_id, $department_id, $itemDescription, $price) or die("Bind param for food on row: " . $row);
+                                                                                    mysqli_stmt_bind_param($stmt, "iisdd", $category_id, $department_id, $itemDescription, $price, $discount) or die("Bind param for food on row: " . $row);
                                                                                     if (mysqli_stmt_execute($stmt)) {
                                                                                         $sql2 = "SELECT employee_id FROM employee WHERE employee_name = ?";
                                                                                         if ($stmt2 = mysqli_prepare($link, $sql2)) {
@@ -130,8 +130,14 @@ include('nav.php.inc');
                                                                                                                         } else {
                                                                                                                             die("Unable to prepare transaction detail on row: " . $row);
                                                                                                                         }
+                                                                                                                    } else {
+                                                                                                                        echo "Multiple entries exist for " . $food . "</br>";
                                                                                                                     }
+                                                                                                                } else {
+                                                                                                                    echo "Error searching for food: " . $food . "</br>";
                                                                                                                 }
+                                                                                                            } else {
+                                                                                                                die("Unable to prepare food selection statement");
                                                                                                             }
                                                                                                         } else {
                                                                                                             die("Unable to add transaction on row: " . $row);
@@ -139,8 +145,14 @@ include('nav.php.inc');
                                                                                                     } else {
                                                                                                         die("Could not prepare transaction statement on row: " . $row);
                                                                                                     }
+                                                                                                } else {
+                                                                                                    echo "Multiple entries exist for " . $cashier . "</br>";
                                                                                                 }
+                                                                                            } else {
+                                                                                                echo "Error searching for employee: " . $cashier . "</br>";
                                                                                             }
+                                                                                        } else {
+                                                                                            echo "Unable to prepare food selection statement";
                                                                                         }
                                                                                     } else {
                                                                                         die("Could not add food on row: " . $row);
