@@ -107,9 +107,9 @@ include('nav.php.inc');
                                                                                                 if ($res->num_rows == 1) {
                                                                                                     $arr = $res->fetch_assoc();
                                                                                                     $cashier_id = $arr[employee_id];
-                                                                                                    $sql = "INSERT INTO transaction(transaction_id,time,employee_id,operation_type_id,tendered_amount) VALUES(?,?,?,?,?)";
+                                                                                                    $sql = "INSERT INTO transaction(transaction_id,time,employee_id,operation_type_id,tendered_amount) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE transaction_id = ?";
                                                                                                     if ($stmt = mysqli_prepare($link, $sql)) {
-                                                                                                        mysqli_stmt_bind_param($stmt, "isiid", $tid, $newTime, $cashier_id, $operation_type, $total) or die("Bind param for transaction on row: " . $row);
+                                                                                                        mysqli_stmt_bind_param($stmt, "isiidi", $tid, $newTime, $cashier_id, $operation_type, $total, $tid) or die("Bind param for transaction on row: " . $row);
                                                                                                         if (mysqli_stmt_execute($stmt)) {
                                                                                                             $sql2 = "SELECT food_id FROM food WHERE food_name = ?";
                                                                                                             if ($stmt2 = mysqli_prepare($link, $sql2)) {
