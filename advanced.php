@@ -204,7 +204,7 @@
 					$weekshow = array("Sun.", "Mon.", "Tue.", "Wed.", "Thurs.", "Fri.", "Sat.");
 					echo '<div>';
 
-					$link = mysqli_connect($host, $user, $password, $db) or die ("Connection Error " . mysqli_error($link));
+					$link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
 					$sql = "SELECT discount FROM transaction NATURAL JOIN transaction_detail NATURAL JOIN food";
 					$total_discounts = 0;
 					if ($stmt = mysqli_prepare($link, $sql)) {
@@ -247,7 +247,7 @@
 					}
 					$contents = sprintf($htmls, sprintf($table_template, $trs));
 
-					$email = 'Baka1949@gmail.com';
+					$email = 'pgilbreth@gmail.com';
 					$subject = 'Advanced Report';
 					$headers = 'MIME-Version: 1.0' . "\r\n";
 					$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

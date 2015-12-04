@@ -29,7 +29,7 @@ include('nav.php.inc');
         <div class="col-md-4 col-sm-4 col-xs-6">
             <form action="parse_detailed_transaction.php" method="post" enctype="multipart/form-data">
                 Select file to upload (Must be a detailed transaction CSV):
-                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="file" name="fileToUpload" id="fileToUpload" accept=".csv">
                 <input type="submit" value="Upload File" name="submit">
             </form>
             <?php

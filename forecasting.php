@@ -41,7 +41,7 @@
 				</div>';
 				$daily_forecasting  = '';
 
-				$link = mysqli_connect(HOST, USER, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
+				$link = mysqli_connect(HOST, USERNAME, PASSWORD, DBNAME) or die ("Connection Error " . mysqli_error($link));
 				$sql = "SELECT sum(tendered_amount), sum(returns), date_format(time, '%Y-%m-%d') FROM transaction WHERE weekday(time)=weekday(?) GROUP BY date_format(time, '%Y-%m-%d')";
 
 				$week = array(date('Y-m-d', strtotime('+1 day')), date('Y-m-d', strtotime('+2 day')), date('Y-m-d', strtotime('+3 day')), date('Y-m-d', strtotime('+4 day')), date('Y-m-d', strtotime('+5 day')), date('Y-m-d', strtotime('+6 day')), date('Y-m-d', strtotime('+7 day')));
