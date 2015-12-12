@@ -50,6 +50,7 @@ if($_SERVER['HTTPS'] != 'on') {
 		        			<li class="dropdown">
 					          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">%s <span class="caret"></span></a>
 					          	<ul class="dropdown-menu">
+					          		<li><a href="register.php">Create New Admin</a></li>
 						            <li><a href="index.php?logout=1">Logout</a></li>
 					          	</ul>
 				        	</li>
