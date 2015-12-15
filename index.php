@@ -44,7 +44,6 @@
 						</div>
 						<div class="row form-group">
 								<input class=" btn btn-info" type="submit" name="login" value="Login"/>
-								<input class=" btn btn-warning pull-right" type="button" value="Register" onclick="window.location.href=\'register.php\'" />
 						</div>';
 						}
 					?>

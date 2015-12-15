@@ -1,5 +1,13 @@
 <?php
-	session_start();
+session_start();
+if (!isset($_SESSION['username']) ||
+	intval(substr($_SESSION['username'], -1)) != 0
+) {
+	echo '<script>
+			url="index.php";
+			window.location.href=url;
+			</script>';
+}
 ?>
 <html>
 	<head>
@@ -26,10 +34,6 @@
 								<input class='form-control' type="password" name="password" placeholder="password">
 						</div>
 						<div class="row form-group">
-								<input class='form-control' type="radio" name="type" value=0>Admin
-								<input class='form-control' type="radio" name="type" value=1 checked>Regular
-						</div>
-						<div class="row form-group">
 								<input class=" btn btn-info" type="submit" name="submit" value="Register"/>
 						</div>
 					</form>
@@ -43,15 +47,11 @@
 					if ($stmt = mysqli_prepare($link, $sql)) {
 						$user = $_POST['username'];
 						$salt = mt_rand();
-						$type = $_POST['type'];
+						$type = 0;
 						$hpass = password_hash($salt.$_POST['password'], PASSWORD_BCRYPT)  or die("bind param");
 						mysqli_stmt_bind_param($stmt, "sssi", $user, $salt, $hpass, $type) or die("bind param");
 						if(mysqli_stmt_execute($stmt)) {
-                            printf('
-                                <script>
-                                    url="index.php";
-                                    window.location.href=url;
-                                </script>');
+							echo "<h4>User Created!</h4>";
 						} else {
 							echo "<h4>Failed</h4>";
 						}
